@@ -44,7 +44,7 @@ DWORD WINAPI OnDllAttach(LPVOID lpParameter)
 		#else
 		// file logging
 		// @note: use std::ios::app instead std::ios::trunc to not clear every time
-		L::ofsFile.open(C::GetWorkingPath().append(XorStr("qo0base.log")), std::ios::out | std::ios::trunc);
+		L::ofsFile.open(C::GetWorkingPath().append(XorStr("BaseLogs.log")), std::ios::out | std::ios::trunc);
 		#endif
 
 		// capture interfaces from game/steam (not always) modules
@@ -67,7 +67,7 @@ DWORD WINAPI OnDllAttach(LPVOID lpParameter)
 		 * fill networkable variables map
 		 * dump received netvars to the file
 		 */
-		if (!CNetvarManager::Get().Setup(XorStr("netvars.qo0")))
+		if (!CNetvarManager::Get().Setup(XorStr("netvars.cfg")))
 			throw std::runtime_error(XorStr("failed to initialize netvars"));
 
 		L::Print(fmt::format(XorStr("found [{:d}] props in [{:d}] tables"), CNetvarManager::Get().iStoredProps, CNetvarManager::Get().iStoredTables));
@@ -108,7 +108,7 @@ DWORD WINAPI OnDllAttach(LPVOID lpParameter)
 		L::Print(XorStr("proxies applied"));
 
 		// setup values to save/load cheat variables in/from files and load default configuration
-		if (!C::Setup(XorStr("default.qo0")))
+		if (!C::Setup(XorStr("default.cfg")))
 		{
 			// this error is not critical, only show that
 			L::PushConsoleColor(FOREGROUND_RED);
@@ -123,7 +123,7 @@ DWORD WINAPI OnDllAttach(LPVOID lpParameter)
 		L::Print(XorStr("qo0 base successfully loaded"));
 		L::PopConsoleColor();
 		I::GameConsole->Clear();
-		I::ConVar->ConsoleColorPrintf(Color(255, 50, 255, 255), XorStr("qo0 base successfully loaded.\nbuild date: %s / %s\n"), __DATE__, __TIME__);
+		I::ConVar->ConsoleColorPrintf(Color(255, 50, 255, 255), XorStr("qo0 base successfully loaded.\nLast Update: %s / %s\n"), __DATE__, __TIME__);
 	}
 	catch (const std::exception& ex)
 	{
@@ -196,7 +196,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
 		// basic process check
 		if (GetModuleHandle(XorStr("csgo.exe")) == nullptr)
 		{
-			MessageBox(nullptr, XorStr("this cannot be injected in another process\nopen <csgo.exe> to inject"), XorStr("qo0 base"), MB_OK);
+			MessageBox(nullptr, XorStr("This cheat was designed for the game Counter-Strike: Global Offensive\nIt will not run in the currently injected application\nPlease inject into the process `csgo.exe`!"), XorStr("qo0 base"), MB_OK);
 			return FALSE;
 		}
 

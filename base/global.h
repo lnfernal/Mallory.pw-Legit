@@ -9,6 +9,8 @@
 #include "sdk/datatypes/usercmd.h"
 // used: baseentity
 #include "sdk/entity.h"
+// used: cconvar
+#include "sdk/convar.h"
 
 /*
  * GLOBALS
@@ -31,4 +33,8 @@ namespace G
 	inline QAngle			angStep = { };
 	// camera origin
 	inline Vector			vecCamera = { };
+	// recoil scale
+	inline CConVar*         flRecoilScale = nullptr;
+	// current weapon group (for legitbot)
+	inline int32_t          iWeaponGroup = 0; // default
 }

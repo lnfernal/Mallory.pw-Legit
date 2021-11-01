@@ -35,8 +35,8 @@ bool C::Save(std::string_view szFileName)
 {
 	// check for extension if it is not our replace it
 	std::filesystem::path fsFilePath(szFileName);
-	if (fsFilePath.extension() != XorStr(".qo0"))
-		fsFilePath.replace_extension(XorStr(".qo0"));
+	if (fsFilePath.extension() != XorStr(".cfg"))
+		fsFilePath.replace_extension(XorStr(".cfg"));
 
 	// get utf-8 full path to config
 	const std::string szFile = std::filesystem::path(fsPath / fsFilePath).string();
@@ -316,7 +316,7 @@ void C::Remove(const std::size_t nIndex)
 	const std::string& szFileName = vecFileNames.at(nIndex);
 
 	// unable delete default config
-	if (szFileName.compare(XorStr("default.qo0")) == 0)
+	if (szFileName.compare(XorStr("default.cfg")) == 0)
 		return;
 
 	// get utf-8 full path to config
@@ -335,7 +335,7 @@ void C::Refresh()
 
 	for (const auto& it : std::filesystem::directory_iterator(fsPath))
     {
-		if (it.path().filename().extension() == XorStr(".qo0"))
+		if (it.path().filename().extension() == XorStr(".cfg"))
 		{
 			L::Print(fmt::format(XorStr("found configuration file: {}"), it.path().filename().string()));
 			vecFileNames.push_back(it.path().filename().string());
@@ -359,11 +359,11 @@ std::filesystem::path C::GetWorkingPath()
 	std::filesystem::path fsWorkingPath;
 
 	// get path to user documents
-	if (PWSTR pszPathToDocuments; SUCCEEDED(SHGetKnownFolderPath(FOLDERID_Documents, 0UL, nullptr, &pszPathToDocuments)))
+	if (PWSTR pszPathToAppData; SUCCEEDED(SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0UL, nullptr, &pszPathToAppData)))
 	{
-		fsWorkingPath.assign(pszPathToDocuments);
-		fsWorkingPath.append(XorStr(".qo0"));
-		CoTaskMemFree(pszPathToDocuments);
+		fsWorkingPath.assign(pszPathToAppData);
+		fsWorkingPath.append(XorStr("Mallory.pw"));
+		CoTaskMemFree(pszPathToAppData);
 	}
 	
 	return fsWorkingPath;
