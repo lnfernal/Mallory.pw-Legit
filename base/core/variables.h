@@ -20,6 +20,18 @@ enum EVisualsRemovals : int
 	REMOVAL_SCOPE,
 	REMOVAL_MAX
 };
+
+enum ELegitbotWeaponGroups : int
+{
+	WEAPON_DEFAULT = 0,
+	WEAPON_PISTOL,
+	WEAPON_HEAVYPISTOL,
+	WEAPON_SMG,
+	WEAPON_HEAVY,
+	WEAPON_RIFLE,
+	WEAPON_SNIPER,
+	WEAPON_MAX
+};
 #pragma endregion
 
 #pragma region variables_combo_entries
@@ -85,8 +97,20 @@ struct Variables_t
 	#pragma endregion
 
 	#pragma region variables_legit
+	// cfg
+
 	// aimbot
 	C_ADD_VARIABLE(bool, bLegit, false);
+
+	struct LegitSettings_t
+	{
+		// rcs
+		C_ADD_VARIABLE(bool, bEnableRcs, false);
+		C_ADD_VARIABLE(int, iRecoilScale, 0);
+		C_ADD_VARIABLE(bool, bOverrideDefault, false);
+	};
+	std::array < LegitSettings_t, WEAPON_MAX > aLegitSettings;
+
 
 	// trigger
 	C_ADD_VARIABLE(bool, bTrigger, false);

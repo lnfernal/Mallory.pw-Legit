@@ -243,6 +243,7 @@ void T::RageBot()
 void T::LegitBot()
 {
 	ImGuiStyle& style = ImGui::GetStyle();
+	static int iCurWeaponGroup = 0;
 
 	ImGui::Columns(2, nullptr, false);
 	{
@@ -253,10 +254,51 @@ void T::LegitBot()
 				ImGui::PushStyleVar(ImGuiStyleVar_SelectableTextAlign, ImVec2(0.5f, 0.5f));
 				ImGui::Selectable(XorStr("aimbot##legitbot"), &C::Get<bool>(Vars.bLegit), ImGuiSelectableFlags_None, ImVec2(30, 0));
 				ImGui::PopStyleVar();
+
+				if (ImGui::BeginMenu(XorStr("weapon group")))
+				{
+					if (ImGui::MenuItem(XorStr("default"), nullptr, iCurWeaponGroup == 0))
+						iCurWeaponGroup = 0;
+					if (ImGui::MenuItem(XorStr("pistols"), nullptr, iCurWeaponGroup == 1))
+						iCurWeaponGroup = 1;
+					if (ImGui::MenuItem(XorStr("heavy pistols"), nullptr, iCurWeaponGroup == 2))
+						iCurWeaponGroup = 2;
+					if (ImGui::MenuItem(XorStr("smg"), nullptr, iCurWeaponGroup == 3))
+						iCurWeaponGroup = 3;
+					if (ImGui::MenuItem(XorStr("heavy"), nullptr, iCurWeaponGroup == 4))
+						iCurWeaponGroup = 4;
+					if (ImGui::MenuItem(XorStr("rifle"), nullptr, iCurWeaponGroup == 5))
+						iCurWeaponGroup = 5;
+					if (ImGui::MenuItem(XorStr("sniper"), nullptr, iCurWeaponGroup == 6))
+						iCurWeaponGroup = 6;
+					ImGui::EndMenu();
+				}
 				ImGui::EndMenuBar();
 			}
 
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(style.FramePadding.x, -1));
+			/*
+			here goes our functions <3
+			*/
+
+			if (iCurWeaponGroup > 0)
+			{
+				ImGui::Checkbox(XorStr("Override Default Settings"), &C::Get<bool>(Vars.aLegitSettings[iCurWeaponGroup].bOverrideDefault));
+				if (C::Get<bool>(Vars.aLegitSettings[iCurWeaponGroup].bOverrideDefault))
+				{
+					ImGui::Checkbox(XorStr("Enable Recoil Control"), &C::Get<bool>(Vars.aLegitSettings[iCurWeaponGroup].bEnableRcs));
+
+					if (C::Get<bool>(Vars.aLegitSettings[iCurWeaponGroup].bEnableRcs))
+						ImGui::SliderInt(XorStr("RCS Amount"), &C::Get<int>(Vars.aLegitSettings[iCurWeaponGroup].iRecoilScale), 0, 100);
+				}
+			}
+			else
+			{
+				ImGui::Checkbox(XorStr("Enable Recoil Control"), &C::Get<bool>(Vars.aLegitSettings[0].bEnableRcs));
+
+				if (C::Get<bool>(Vars.aLegitSettings[0].bEnableRcs))
+					ImGui::SliderInt(XorStr("RCS Amount"), &C::Get<int>(Vars.aLegitSettings[0].iRecoilScale), 0, 100);
+			}
 
 			ImGui::PopStyleVar();
 
