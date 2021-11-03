@@ -32,6 +32,14 @@ enum ELegitbotWeaponGroups : int
 	WEAPON_SNIPER,
 	WEAPON_MAX
 };
+
+enum ERcsFlags : int
+{
+	ALWAYS= 0,
+	AFTER_X_SHOTS,
+	ONLY_WHEN_TARGET,
+	RCS_MAX
+};
 #pragma endregion
 
 #pragma region variables_combo_entries
@@ -43,10 +51,17 @@ enum class EAntiAimPitchType : int
 	ZERO
 };
 
-enum class EAntiAimYawType : int
+enum class EAntiAimDesyncType : int
 {
 	NONE = 0,
 	DESYNC
+};
+
+enum class EAntiAimYawType : int
+{
+	NONE = 0,
+	BACKWARDS,
+	RANDOM
 };
 
 enum class EVisualsBoxType : int
@@ -93,6 +108,7 @@ struct Variables_t
 	C_ADD_VARIABLE(bool, bAntiAim, false);
 	C_ADD_VARIABLE(int, iAntiAimPitch, 0);
 	C_ADD_VARIABLE(int, iAntiAimYaw, 0);
+	C_ADD_VARIABLE(int, iAntiAimDesync, 0);
 	C_ADD_VARIABLE(int, iAntiAimDesyncKey, VK_XBUTTON1);
 	#pragma endregion
 
@@ -108,6 +124,8 @@ struct Variables_t
 		C_ADD_VARIABLE(bool, bEnableRcs, false);
 		C_ADD_VARIABLE(int, iRecoilScale, 0);
 		C_ADD_VARIABLE(bool, bOverrideDefault, false);
+		C_ADD_VARIABLE(int, iRcsFlags, 0);
+		C_ADD_VARIABLE(int, iRcsShots, 1);
 	};
 	std::array < LegitSettings_t, WEAPON_MAX > aLegitSettings;
 

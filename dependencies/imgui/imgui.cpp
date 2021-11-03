@@ -3719,7 +3719,7 @@ void ImGui::NewFrame()
     else
         g.DimBgRatio = ImMax(g.DimBgRatio - g.IO.DeltaTime * 10.0f, 0.0f);
 
-    g.MouseCursor = ImGuiMouseCursor_Arrow;
+    // g.MouseCursor = ImGuiMouseCursor_Arrow;
     g.WantCaptureMouseNextFrame = g.WantCaptureKeyboardNextFrame = g.WantTextInputNextFrame = -1;
     g.PlatformImePos = ImVec2(1.0f, 1.0f); // OS Input Method Editor showing on top-left of our window by default
 
@@ -4182,7 +4182,7 @@ void ImGui::Render()
     // Draw software mouse cursor if requested
     if (g.IO.MouseDrawCursor)
 		// modified by qo0
-        RenderMouseCursor(&g.ForegroundDrawList, g.IO.MousePos, g.Style.MouseCursorScale, g.MouseCursor, IM_COL32(140, 40, 225, 100), IM_COL32_BLACK, IM_COL32(0, 0, 0, 48));
+        RenderMouseCursor(&g.ForegroundDrawList, g.IO.MousePos, g.Style.MouseCursorScale, g.MouseCursor, IM_COL32(78, 93, 148, 255), IM_COL32_BLACK, IM_COL32(0, 0, 0, 48)); // modified by rxvan uwu <3
 
     // Add foreground ImDrawList
     if (!g.ForegroundDrawList.VtxBuffer.empty())

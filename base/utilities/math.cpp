@@ -177,3 +177,20 @@ void M::RotateCenter(const ImVec2& vecCenter, const float flAngle, ImVec2* pOutP
 	pOutPoint->x = x + vecCenter.x;
 	pOutPoint->y = y + vecCenter.y;
 }
+
+void M::NormalizeAngles(QAngle& angles)
+{
+	while (angles.x > 89.0f)
+		angles.x -= 180.0f;
+
+	while (angles.x < -89.0f)
+		angles.x += 180.0f;
+
+	while (angles.y < -180.0f)
+		angles.y += 360.0f;
+
+	while (angles.y > 180.0f)
+		angles.y -= 360.0f;
+
+	angles.z = 0.0f;
+}

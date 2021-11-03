@@ -62,6 +62,8 @@ namespace M
 	void	RotatePoint(const ImVec2& vecIn, const float flAngle, ImVec2* pOutPoint);
 	/* rotates given center point and outputs to given outpoint by given angle */
 	void	RotateCenter(const ImVec2& vecCenter, const float flAngle, ImVec2* pOutPoint);
+	/* normalizes angles lulw */
+	void NormalizeAngles(QAngle& angles);
 
 	// Exports
 	inline RandomSeedFn				RandomSeed;

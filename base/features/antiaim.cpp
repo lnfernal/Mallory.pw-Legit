@@ -194,7 +194,19 @@ void CAntiAim::Yaw(CUserCmd* pCmd, CBaseEntity* pLocal, float flServerTime, bool
 	{
 	case (int)EAntiAimYawType::NONE:
 		break;
-	case (int)EAntiAimYawType::DESYNC:
+	case (int)EAntiAimYawType::BACKWARDS:
+		pCmd->angViewPoint.y -= 180.f;
+		break;
+	case (int)EAntiAimYawType::RANDOM:
+		angSentView.y -= M::RandomFloat(360.f, -360.f);
+		break;
+	}
+
+	switch (C::Get<int>(Vars.iAntiAimDesync))
+	{
+	case (int)EAntiAimDesyncType::NONE:
+		break;
+	case (int)EAntiAimDesyncType::DESYNC:
 	{
 		static float flSide = 1.0f;
 

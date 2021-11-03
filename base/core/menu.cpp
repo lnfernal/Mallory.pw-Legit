@@ -228,9 +228,10 @@ void T::RageBot()
 
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(style.FramePadding.x, -1));
 			ImGui::Combo(XorStr("pitch"), &C::Get<int>(Vars.iAntiAimPitch), XorStr("none\0up\0down\0zero (untrusted)\0\0"));
-			ImGui::Combo(XorStr("yaw"), &C::Get<int>(Vars.iAntiAimYaw), XorStr("none\0desync\0\0"));
+			ImGui::Combo(XorStr("yaw"), &C::Get<int>(Vars.iAntiAimYaw), XorStr("none\0backwards\0random\0\0"));
+			ImGui::Combo(XorStr("desync"), &C::Get<int>(Vars.iAntiAimDesync), XorStr("none\0desync\0\0"));
 
-			if (C::Get<int>(Vars.iAntiAimYaw) == (int)EAntiAimYawType::DESYNC)
+			if (C::Get<int>(Vars.iAntiAimDesync) == (int)EAntiAimDesyncType::DESYNC)
 				ImGui::HotKey(XorStr("desync switch"), &C::Get<int>(Vars.iAntiAimDesyncKey));
 			ImGui::PopStyleVar();
 
@@ -288,16 +289,28 @@ void T::LegitBot()
 				{
 					ImGui::Checkbox(XorStr("Enable Recoil Control"), &C::Get<bool>(Vars.aLegitSettings[iCurWeaponGroup].bEnableRcs));
 
-					if (C::Get<bool>(Vars.aLegitSettings[iCurWeaponGroup].bEnableRcs))
-						ImGui::SliderInt(XorStr("RCS Amount"), &C::Get<int>(Vars.aLegitSettings[iCurWeaponGroup].iRecoilScale), 0, 100);
+					if (C::Get<bool>(Vars.aLegitSettings[iCurWeaponGroup].bEnableRcs)) 
+					{
+						ImGui::Combo(XorStr("RCS Flags"), &C::Get<int>(Vars.aLegitSettings[iCurWeaponGroup].iRcsFlags), XorStr("always\0after x shots\0aimbot target\0\0"));
+
+						ImGui::SliderInt(XorStr("RCS Amount - Y"), &C::Get<int>(Vars.aLegitSettings[iCurWeaponGroup].iRecoilScale), 0, 100); // placeholders for now <3
+						if (C::Get<int>(Vars.aLegitSettings[iCurWeaponGroup].iRcsFlags) == 1)
+							ImGui::SliderInt(XorStr("Enable after "), &C::Get<int>(Vars.aLegitSettings[iCurWeaponGroup].iRcsShots), 1, 5);
+					}
+				}
+				else
+				{
+					ImGui::Text(XorStr("Enable override to configure these settings!"));
 				}
 			}
 			else
 			{
-				ImGui::Checkbox(XorStr("Enable Recoil Control"), &C::Get<bool>(Vars.aLegitSettings[0].bEnableRcs));
+				ImGui::Checkbox(XorStr("Enable Recoil Control"), &C::Get<bool>(Vars.aLegitSettings[0].bEnableRcs)); // set it manually to 0 to avoid issues with laggy animations on slower systems :D D: D: DD:
 
-				if (C::Get<bool>(Vars.aLegitSettings[0].bEnableRcs))
+				if (C::Get<bool>(Vars.aLegitSettings[0].bEnableRcs)) 
+				{
 					ImGui::SliderInt(XorStr("RCS Amount"), &C::Get<int>(Vars.aLegitSettings[0].iRecoilScale), 0, 100);
+				}
 			}
 
 			ImGui::PopStyleVar();

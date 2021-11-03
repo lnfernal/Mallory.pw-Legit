@@ -351,7 +351,7 @@ void D::Setup(IDirect3DDevice9* pDevice, unsigned int uFontFlags)
 	style.TabBorderSize = 1.0f;
 	style.ButtonTextAlign = ImVec2(0.5f, 0.5f);
 	style.SelectableTextAlign = ImVec2(0.0f, 0.5f);
-	style.MouseCursorScale = 0.75f;
+	style.MouseCursorScale = 1.25f;
 	#pragma endregion
 
 	#pragma region draw_style_color

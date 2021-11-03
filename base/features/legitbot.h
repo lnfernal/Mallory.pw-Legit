@@ -19,4 +19,5 @@ private:
 
 	// Check
 	/* is entity valid */
+	QAngle RCSLastPunch; // credits @ aimtux :D
 };

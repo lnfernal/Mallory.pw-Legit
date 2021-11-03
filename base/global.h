@@ -11,6 +11,8 @@
 #include "sdk/entity.h"
 // used: cconvar
 #include "sdk/convar.h"
+// used: weaponsystem
+#include "core/interfaces.h"
 
 /*
  * GLOBALS
@@ -37,4 +39,41 @@ namespace G
 	inline CConVar*         flRecoilScale = nullptr;
 	// current weapon group (for legitbot)
 	inline int32_t          iWeaponGroup = 0; // default
+	// cur wep group
+	__forceinline int iGetWeaponGroup(CBaseCombatWeapon* pWeapon)
+	{
+		CCSWeaponData* pWeaponData = I::WeaponSystem->GetWeaponData(pWeapon->GetItemDefinitionIndex());
+		if (pWeaponData->nWeaponType == WEAPONTYPE_KNIFE)
+			return 0; // default
+
+		static int32_t iWepGroup = 0;
+
+		if (pWeapon->GetItemDefinitionIndex() == WEAPON_DEAGLE || pWeapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)
+		{
+			iWepGroup = 2;
+		}
+		else
+		{
+			switch (pWeaponData->nWeaponType)
+			{
+			case WEAPONTYPE_PISTOL:
+				iWepGroup = 1;
+				break;
+			case WEAPONTYPE_MACHINEGUN:
+			case WEAPONTYPE_SHOTGUN:
+				iWepGroup = 4;
+				break;
+			case WEAPONTYPE_RIFLE:
+				iWepGroup = 5;
+				break;
+			case WEAPONTYPE_SNIPER:
+				iWepGroup = 6;
+				break;
+			case WEAPONTYPE_SUBMACHINEGUN:
+				iWepGroup = 3;
+				break;
+			}
+		}
+		return iWepGroup;
+	}
 }
